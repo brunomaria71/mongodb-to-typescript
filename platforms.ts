@@ -6,7 +6,7 @@ interface Platform {
 
 const getCollection = async () => {
   const db = await getDb();
-  return db.collection('platforms');
+  return db.collection<Platform>('platforms');
 };
 
 export const createPlatform = async (platform: Platform) => {
