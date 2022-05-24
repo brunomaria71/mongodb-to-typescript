@@ -1,22 +1,19 @@
 import { getDb } from './db';
 
-interface TvShows {
+interface TvShow {
   name: string;
   platformIds: string[];
-  
+
 }
 
 const getCollection = async () => {
   const db = await getDb();
-  return db.collection('tv-shows');
+  return db.collection<TvShow>('tv-shows');
 };
 
-export const createTvShows = async (name, platformIds) => {
+export const createTvShows = async (tvShow: TvShow) => {
   const col = await getCollection();
-  const ret = await col.insertOne({
-    name,
-    platformIds,
-  });
+  const ret = await col.insertOne(tvShow);
 
   return ret.insertedId;
 };
@@ -27,7 +24,7 @@ export const getTvShows = async () => {
   return ret.toArray();
 };
 
-export const getShowsByPlatform = async (platformId) => {
+export const getShowsByPlatform = async (platformId: string) => {
   const col = await getCollection();
   const ret = col.find({
     platformId,
@@ -35,7 +32,7 @@ export const getShowsByPlatform = async (platformId) => {
   return ret.toArray();
 };
 
-export const getShowsByName = async (name) => {
+export const getShowsByName = async (name: string) => {
   const col = await getCollection();
   const ret = col.find({
     name: {
@@ -45,7 +42,7 @@ export const getShowsByName = async (name) => {
   return ret.toArray();
 };
 
-export const getShowsByNameExactMatch = async (name) => {
+export const getShowsByNameExactMatch = async (name: string) => {
   const col = await getCollection();
   const ret = col.find({
     name,
