@@ -1,4 +1,10 @@
-import { getDb } from './db.js';
+import { getDb } from './db';
+
+interface TvShows {
+  name: string;
+  platformIds: string[];
+  
+}
 
 const getCollection = async () => {
   const db = await getDb();
